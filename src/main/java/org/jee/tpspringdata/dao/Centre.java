@@ -7,26 +7,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jee.tpspringdata.enums.Genre;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "students")
-public class Etudiant {
+@Table(name = "centres")
+public class Centre {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "nomEtudiant" , nullable = false)
+    @Column(name = "nomCentre" , nullable = false)
     private String nom;
-    @Column(name = "prenomEtudiant")
-    private String prenom;
-    @Enumerated(EnumType.STRING)
-    private Genre genre;
-    @ManyToOne
-    @JoinColumn(name = "centre_id" , nullable = false)
-    private Centre centre;
-
+    @Column(name = "adresseCentre")
+    private String adresse;
+    @OneToMany(mappedBy = "centre")
+    private List<Etudiant> etudiants;
 
 
 }

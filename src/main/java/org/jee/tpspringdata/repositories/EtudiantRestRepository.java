@@ -14,4 +14,5 @@ public interface EtudiantRestRepository extends JpaRepository<Etudiant, Long> {
     public List<Etudiant> findEtudiantsByGenre(@Param("g") String genre);
 
 
+
 }

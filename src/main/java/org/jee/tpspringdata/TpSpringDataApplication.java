@@ -1,7 +1,9 @@
 package org.jee.tpspringdata;
 
+import org.jee.tpspringdata.dao.Centre;
 import org.jee.tpspringdata.dao.Etudiant;
 import org.jee.tpspringdata.enums.Genre;
+import org.jee.tpspringdata.repositories.CentreRestRepository;
 import org.jee.tpspringdata.repositories.EtudiantRestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TpSpringDataApplication implements CommandLineRunner {
     @Autowired
    EtudiantRestRepository etudiantRestRepository;
+    @Autowired
+    CentreRestRepository centreRestRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(TpSpringDataApplication.class, args);
@@ -20,38 +24,51 @@ public class TpSpringDataApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        //build centre
+
+        Centre centre = Centre.builder()
+                .nom("EMSI CASA")
+                .adresse("Bvd Hassan II")
+                .build();
+
+        centreRestRepository.save(centre);
+
         Etudiant etudiant = Etudiant.builder()
-                .nom("Diallo")
-                .prenom("Mamadou")
+                .nom("Alpha")
+                .prenom("Ahmed")
                 .genre(Genre.HOMME)
+                .centre(centre)
                 .build();
         etudiantRestRepository.save(etudiant);
 
         Etudiant etudiantx = Etudiant.builder()
-                .nom("Doe")
-                .prenom("John")
+                .nom("ElAdraoui")
+                .prenom("Badr")
+                .centre(centre)
                 .genre(Genre.HOMME)
                 .build();
         etudiantRestRepository.save(etudiantx);
-        //ajouter d'autres étudiants
 
         Etudiant etudiant2 = Etudiant.builder()
-                .nom("Doe")
-                .prenom("Jane")
+                .nom("Elmou")
+                .prenom("Imane")
+                .centre(centre)
                 .genre(Genre.FEMME)
                 .build();
         etudiantRestRepository.save(etudiant2);
 
         Etudiant etudiant3 = Etudiant.builder()
-                .nom("Doe")
-                .prenom("Jack")
+                .nom("Elmoussawi")
+                .prenom("Mustapha")
+                .centre(centre)
                 .genre(Genre.HOMME)
                 .build();
         etudiantRestRepository.save(etudiant3);
 
         Etudiant etudiant4 = Etudiant.builder()
-                .nom("Doe")
-                .prenom("Jill")
+                .nom("HHHHHH")
+                .prenom("HHHHHHHHHHH")
+                .centre(centre)
                 .genre(Genre.FEMME)
                 .build();
         etudiantRestRepository.save(etudiant4);
