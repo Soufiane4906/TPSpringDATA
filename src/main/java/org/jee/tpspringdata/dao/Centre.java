@@ -27,4 +27,12 @@ public class Centre {
     private List<Etudiant> etudiants;
 
 
+    public Centre(String nom, String adresse) {
+        this.nom = nom;
+        this.adresse = adresse;
+    }
+
+    public Centre(Long aLong) {
+
+    }
 }

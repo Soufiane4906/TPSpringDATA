@@ -1,0 +1,40 @@
+type Query{
+    getAllCentres: [Centre],
+    getAllEtudiants: [Etudiant],
+    getEtudiant(id: Float): Etudiant,
+    getCentre(id: Float): Centre
+
+}
+type Mutation{
+    addEtudiant(etudiant:EtudiantDto): Etudiant,
+    deleteEtudiant(id: Float): String,
+    updateEtudiant(id: Float, etudiantDto:EtudiantDto): Etudiant,
+    addCentre(centre:CentreDto): Centre,
+    deleteCentre(id: Float): String
+}
+
+input EtudiantDto{
+    nom: String,
+    prenom: String
+    idCentre: Float
+    gender: String
+}
+input CentreDto{
+    nom: String,
+    adresse: String
+}
+type Etudiant{
+    id: Float,
+    nom: String,
+    prenom: String,
+    gender: String,
+    email: String,
+    centre: Centre
+}
+
+type Centre{
+    id: Float,
+    nom: String!,
+    adresse: String,
+    etudiants: [Etudiant]
+}

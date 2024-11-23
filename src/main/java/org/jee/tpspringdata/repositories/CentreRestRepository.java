@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource(path = "centres")
+//@RepositoryRestResource(path = "centres")
 public interface CentreRestRepository extends JpaRepository<Centre, Long> {
 
 

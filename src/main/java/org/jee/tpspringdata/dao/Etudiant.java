@@ -28,5 +28,16 @@ public class Etudiant {
     private Centre centre;
 
 
+    public Etudiant(String nom, String prenom, Genre genre) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.genre = genre;
+    }
 
+    public Etudiant(String nom, String prenom, Genre genre, Centre centre) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.genre = genre;
+        this.centre = centre;
+    }
 }
