@@ -10,6 +10,7 @@ import java.util.List;
 
 //@RepositoryRestResource(path = "centres")
 public interface CentreRestRepository extends JpaRepository<Centre, Long> {
+    public Centre findCentreById(Long Id);
 
 
 

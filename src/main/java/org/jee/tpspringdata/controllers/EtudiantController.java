@@ -2,91 +2,60 @@ package org.jee.tpspringdata.controllers;
 
 import org.jee.tpspringdata.dao.Centre;
 import org.jee.tpspringdata.dao.Etudiant;
-import org.jee.tpspringdata.dtos.CentreDto;
 import org.jee.tpspringdata.dtos.EtudiantDto;
 import org.jee.tpspringdata.enums.Genre;
-import org.jee.tpspringdata.repositories.CentreRestRepository;
-import org.jee.tpspringdata.repositories.EtudiantRestRepository;
+import org.jee.tpspringdata.service.CentreService;
+import org.jee.tpspringdata.service.EtudiantService;
+import org.jee.tpspringdata.utils.ToEntities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
 @Controller
 public class EtudiantController {
     @Autowired
-    private CentreRestRepository centreRepository;
+    private CentreService centreService;
 
     @Autowired
-    private EtudiantRestRepository etudiantRepository;
+    private EtudiantService etudiantService;
 
 
-@QueryMapping()
-    public List<Centre> getAllCentres() {
-        return centreRepository.findAll();
+    @QueryMapping()
+    public List<Etudiant> getAllEtudiants() {
+        return etudiantService.getAllEtudiants();
     }
 
-@QueryMapping()
-public List<Etudiant> getAllEtudiants() {
-        return etudiantRepository.findAll();
-    }
 
-@QueryMapping()
-    public Centre getCentre(@Argument Long id) {
-        return centreRepository.findById(id).orElse(null);
-    }
 
     @QueryMapping()
     public Etudiant getEtudiant(@Argument Long id) {
-        return etudiantRepository.findById(id).orElse(null);
+        return etudiantService.getEtudiant(id);
     }
 
-@MutationMapping()
-public Etudiant addEtudiant(@Argument EtudiantDto etudiant) {
-    Centre centre = centreRepository.findById(etudiant.idCentre()).orElse(null);
-    if (centre == null) {
-        return null;
+    @MutationMapping()
+    public Etudiant addEtudiant(@Argument EtudiantDto etudiant) {
+        return etudiantService.addEtudiant(etudiant);
     }
-    Etudiant newEtudiant = new Etudiant(etudiant.nom(), etudiant.prenom(), Genre.valueOf(etudiant.genre()), centre);
 
-    return etudiantRepository.save(newEtudiant);
+    @MutationMapping()
+    public Etudiant updateEtudiant(@Argument Long id, @Argument EtudiantDto etudiantDto) {
+        return etudiantService.updateEtudiant(id, etudiantDto);
+    }
+
+    @SubscriptionMapping
+    public Flux<Etudiant> etudiantAdded() {
+        return etudiantService.getEtudiantAddedPublisher();
+    }
+
+    @MutationMapping()
+    public String deleteEtudiant(@Argument Long id) {
+        Etudiant etudiant = etudiantService.deleteEtudiant(id);
+        return etudiant == null ? "Etudiant not found" : "Etudiant deleted";
+    }
 }
-
-@MutationMapping()
-public Etudiant updateEtudiant(@Argument Long id, @Argument EtudiantDto etudiantDto) {
-    Etudiant etudiant = etudiantRepository.findById(id).orElse(null);
-    if (etudiant == null) {
-        return null;
-    }
-    etudiant.setNom(etudiantDto.nom());
-    etudiant.setPrenom(etudiantDto.prenom());
-    etudiant.setGenre(Genre.valueOf(etudiantDto.genre()));
-    Centre centre = centreRepository.findById(etudiantDto.idCentre()).orElse(null);
-    if (centre == null) {
-        return null;
-    }
-    etudiant.setCentre(centre);
-    etudiantRepository.save(etudiant);
-
-    return etudiant;
-
-}
-
-//delete etudiant
-@MutationMapping()
-public String deleteEtudiant(@Argument Long id) {
-    Etudiant etudiant = etudiantRepository.findById(id).orElse(null);
-    if (etudiant == null) {
-        return "Etudiant not found";
-    }
-    etudiantRepository.delete(etudiant);
-
-    return "Etudiant deleted";}
-
-}
-
-
-

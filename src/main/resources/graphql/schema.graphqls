@@ -12,7 +12,9 @@ type Mutation{
     addCentre(centre:CentreDto): Centre,
     deleteCentre(id: Float): String
 }
-
+type Subscription{
+    etudiantAdded:Etudiant
+}
 input EtudiantDto{
     nom: String,
     prenom: String
@@ -38,3 +40,4 @@ type Centre{
     adresse: String,
     etudiants: [Etudiant]
 }
+

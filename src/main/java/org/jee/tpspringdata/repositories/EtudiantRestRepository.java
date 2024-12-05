@@ -12,6 +12,8 @@ import java.util.List;
 public interface EtudiantRestRepository extends JpaRepository<Etudiant, Long> {
    // public Etudiant findEtudiantByNom(@Param("n") String nom);
     //public List<Etudiant> findEtudiantsByGenre(@Param("g") String genre);
+    //find by id
+    public  Etudiant findEtudiantById(Long id);
 
 
 
